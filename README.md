@@ -28,10 +28,17 @@ directory. Put your language into a repo named after your language:
            ├─ README.md
            ├─ src
 
+In your README, include at least 1 sample program with an explanation of how it
+works.
+
+While not required, including clear instruction on how to run example programs
+in a **sandbox** dramatically increase the chances we will try to run your
+language. This could be a dockerfile, a web playground, or something else.
+
 ## RULES & GUIDELINES
 
 - PL must adhere to theme
-  - include an explanation of how your PL fits the theme in your README.md
+  - include an explanation of how your PL fits the theme in your README
 - PL must be original
   - please do not submit a PL that existed in any form before the jam starts
 - You may work in teams!
@@ -41,15 +48,12 @@ directory. Put your language into a repo named after your language:
 - Your PL <u>may not exceed 1000 LOC</u> (see FAQ for details)
 - Submission must include at least 1 sample program with an explanation of how
   it works.
-  - Including clear instruction on how to run example programs in a **sandbox**
-    dramatically increase the chances we will try to run your language (e.g.
-    docker / web).
 
 ### AI POLICY
 
-You may use AI however you like; however, your README.md must fully document how
-AI was used, or not used, in your submission. The final submitted language must
-not require AI to compile or run. Failure to disclose AI usage may result in
+You may use AI however you like; however, your README must fully document how AI
+was used, or not used, in your submission. The final submitted language must not
+require AI to compile or run. Failure to disclose AI usage may result in
 disqualification from the jam.
 
 ### SCHEDULE
@@ -77,4 +81,8 @@ day).
   <summary>LOC limit</summary>
   We will be reading source code so we need the submissions to be digestable. Dependencies, configs, and build files do not count towards LOC limit.
   Please don't put all your code on 1 line or commit project logic into dependencies. We reserve the right to disqualify submissions that violate the spirit of the rules.
+</details>
+<details>
+  <summary>Questions and comments</summary>
+  Please use github <a href="https://github.com/jzwood/langjam2/issues">issues</a> for additional questions, comments, and clarifications.
 </details>
