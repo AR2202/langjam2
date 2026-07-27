@@ -86,3 +86,10 @@ day).
   <summary>Questions and comments</summary>
   Please use github <a href="https://github.com/jzwood/langjam2/issues">issues</a> for additional questions, comments, and clarifications.
 </details>
+
+## SUPPORTERS
+
+1. [CoRecursive](https://corecursive.com/) podcast
+
+> Each episode someone shares the fascinating story behind a piece of software
+> being built.
