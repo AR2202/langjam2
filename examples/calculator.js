@@ -4,7 +4,7 @@
  *  OP := '+' | '*'
  */
 
-// PROGRAM SRC CODE
+// PROGRAM SOURCE CODE
 const PROGRAM = "+ 4 * 2 7";
 
 // TOKENIZED PROGRAM
