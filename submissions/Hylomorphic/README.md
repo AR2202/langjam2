@@ -7,6 +7,31 @@ In category theory, a hylomorphism is an anamorphism (corecursion) followed by a
 ## The rest of the weird naming
 As you might have guessed, the rest of the weired naming is also inspired by category theory. 
 
+## Building the AST
+Hylomorphic has a fundamentally different concept from normal text-based languages. Instead of writing source code, the user builds an AST graphically and evaluates it. The AST can have nodes and terminals (leafs). Each fully saturated node has 2 children.
+
+### Node types
+* Product: a product node
+* Coproduct: a coproduct (sum) node
+
+### Leaf types
+Hylomorphic supports 2 types of terminals:
+* integers
+* booleans
+
+The tree is extended when the user enters a node or leaf type they would like to enter. The new node or leaf is always appended to the leftmost empty space. If the tree has only terminals in all final layers, it is fully saturated. Nothing can be added to it. It can only be evaluated.
+
+## Evaluating the AST
+Evaluation happens by depth-first traversal. Only fully saturated nodes can be evaluated. Nodes which aren't fully saturated will remain as-is. The tree can be evaluated to another tree or a terminal, depending on whether it is fully saturated. 
+
+### Evaluation rules
+A product node with 2 integer children multiplies the integers. A categorical coproduct in corresponds to a sum in the sense of "sum types". A coproduct node is therefore a sum node. It sums its integer children.
+A product node with 2 boolean children performs AND, as AND is the product in the Bool category. A coproduct node performs OR on 2 boolean children for the equivalent reason.
+
+A node with mixed children casts the boolean to an integer as follows:
+TRUE corresponds to 1, as TRUE is the terminal object in the Bool category and 1 (the singleton set) is the terminal object in Set.
+FALSE corresponds to 0, as FALSE is the initial object in the Bool category and 0 (the empty set) is the initial object in Set.
+
 ## How Hylomprphic fits the lang jam theme (Corecursion)
 As outlined above, a Hylomorphism is an anamorphism (corecursion) followed by a catamorphism (recursion). In this sense, building an AST is corecursion.
 
