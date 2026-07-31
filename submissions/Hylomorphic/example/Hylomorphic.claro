@@ -1,0 +1,145 @@
+atom Product
+atom Coproduct
+# the result of evaluating an AST
+newtype EvalResult: oneof <int, boolean, AST, std::Nothing>
+# the AST
+newtype AST :struct {
+  nodetype: oneof <Product, Coproduct>, 
+  left:  oneof <int, boolean, AST, std::Nothing>,
+  right: oneof <int, boolean, AST, std::Nothing>
+}
+
+contract Evaluable<X> {
+    function eval(t: X) -> EvalResult;
+}
+
+
+
+implement Evaluable<int> {
+    function eval(i: int) -> EvalResult {       
+        return EvalResult(i);
+    }
+}
+
+implement Evaluable<boolean> {
+    function eval(b: boolean) -> EvalResult {       
+        return EvalResult(b);
+    }
+}
+
+implement Evaluable<std::Nothing> {
+    function eval(i:std::Nothing) -> EvalResult {
+        return EvalResult(i);
+    }
+}
+
+implement Evaluable<AST> {
+    function eval(t:AST) -> EvalResult {
+      var lres = unwrap(Evaluable::eval(unwrap(t).left));
+      var rres = unwrap(Evaluable::eval(unwrap(t).right));
+      if (( lres instanceof int) and (rres instanceof int)){
+        match (unwrap(t).nodetype){
+         case _:Coproduct -> 
+                       
+                return EvalResult(lres + rres);
+
+         case _:Product -> return EvalResult( lres * rres);
+      }
+     
+  }
+      if (( lres instanceof boolean) and (rres instanceof boolean)){
+        match (unwrap(t).nodetype){
+         case _:Coproduct -> 
+                # coproduct in the Bool category is OR      
+                return EvalResult(lres or rres);
+                           
+         case _:Product -> 
+                # product in the bool category is AND
+                return EvalResult(lres and rres);
+      }
+      
+  }
+      if (( lres instanceof boolean) and (rres instanceof int)){
+        match (unwrap(t).nodetype){
+         case _:Coproduct -> 
+                       
+                return EvalResult( intrep(lres) + rres);
+
+         case _:Product -> return EvalResult(intrep(lres) * rres);
+      }
+      }
+      if (( rres instanceof boolean) and (lres instanceof int)){
+        match (unwrap(t).nodetype){
+         case _:Coproduct -> 
+                # if the node has mixed type children, 
+                # use the integer representation of booleans      
+                return EvalResult( intrep(rres) + lres);
+
+         case _:Product ->
+                 return EvalResult(intrep(rres) * lres);
+      }
+      }
+ return EvalResult(AST({nodetype=unwrap(t).nodetype, left=lres, right=rres}));
+      
+    }
+}
+
+contract Prettyprintable<X> {
+    function prettyprint(t: X) -> string;
+}
+
+implement Prettyprintable<int> {
+  function prettyprint(i: int) -> string {
+        var emptyString = string_builder::create();
+        var intStringBuilder = string_builder::add(emptyString, i);
+
+        return string_builder::build(intStringBuilder);
+  }
+}
+
+implement Prettyprintable<boolean> {
+  function prettyprint(b: boolean) -> string {
+        var emptyString = string_builder::create();
+        var boolStringBuilder = string_builder::add(emptyString, b);
+
+        return string_builder::build(boolStringBuilder);
+  }
+}
+
+implement Prettyprintable<std::Nothing> {
+    function prettyprint(ignored:std::Nothing) -> string{
+        _ = ignored;
+         return "";
+    }
+}
+
+# integer representation of a boolean
+function intrep(b: boolean) -> int{
+  if(b){
+       # True is the terminal object in the Bool category
+       # as is the singleton set (1) in Set
+       return 1;
+       }
+       else{
+       # False is the terminal object in the Bool category
+       # as is the empty set (0) in Set
+       return 0;
+   }
+}
+var exampletree = AST({
+    nodetype = Coproduct,
+    left = AST ({nodetype = Product, left = 2, right = 3}),
+    right = AST ({nodetype = Coproduct, left = std::Nothing, right = 4})
+  });
+print(exampletree);
+print("Welcome to Hylomorphic - an interactive visual programming language inspired by category theory");
+print("-------------------------------------------------------------------------------------------------");
+print("to quit, enter quit");
+print("to evaluate the tree, enter e");
+print("you can nodes or terminal objects to the tree with these symbols:");
+
+print("+: adds a Coproduct node");
+print("x: adds a Product node");
+print("t: adds a true terminal (leaf)");
+print("f: adds a false terminal (leaf)");
+print("any integer: adds an integer terminal (leaf)");
