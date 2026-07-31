@@ -13,7 +13,7 @@ favorite submissions and award one a modest but special prize.
 
 ### THEME
 
-This year's theme will be announced on July 31st, 5pm EDT!
+This year's theme will be announced on July 31st, noon EDT!
 
 Feel free to interpret the theme as literally or figuratively as you want. Get
 creative and have fun!
