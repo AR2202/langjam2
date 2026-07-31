@@ -72,6 +72,21 @@ function evaluate(ast) :: result {
 }
 ```
 
+### ANALYSIS
+
+The above examples didn't provide any analysis but it's easy to come up with
+inputs that violate the grammar.
+
+For example the programs `M` and `PP` cannot be represented in the grammar.
+Detecting these failure modes before evaluation is one aspect of analysis. While
+grammar errors can be caught during parsing, semantic and type errors can be
+caught by analysing the AST.
+
+Performance optimization are another facet of analysis. For instance, if you
+encountered the consecutive tokens `[P, M]` you could optimize them away to `[]`
+b/c `M` undoes `P`.
+
+
 ### NOTES
 
 The shrewd programmer will have realized that the grammar for this PL is so
@@ -89,16 +104,4 @@ function evaluate(src) {
 }
 ```
 
-### ANALYSIS
-
-The above examples didn't provide any analysis but it's easy to come up with
-inputs that violate the grammar.
-
-For example the programs `M` and `PP` cannot be represented in the grammar.
-Detecting these failure modes before evaluation is one aspect of analysis. While
-grammar errors can be caught during parsing, semantic and type errors can be
-caught by analysing the AST.
-
-Performance optimization are another facet of analysis. For instance, if you
-encountered the consecutive tokens `[P, M]` you could optimize them away to `[]`
-b/c `M` undoes `P`.
+For more simple (slightly more realistic) examples, look in the _/examples/_ directory.
