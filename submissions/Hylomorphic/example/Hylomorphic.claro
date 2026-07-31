@@ -131,15 +131,51 @@ var exampletree = AST({
     left = AST ({nodetype = Product, left = 2, right = 3}),
     right = AST ({nodetype = Coproduct, left = std::Nothing, right = 4})
   });
-print(exampletree);
+print("-------------------------------------------------------------------------------------------------");
+print("to quit, enter quit");
 print("Welcome to Hylomorphic - an interactive visual programming language inspired by category theory");
 print("-------------------------------------------------------------------------------------------------");
 print("to quit, enter quit");
 print("to evaluate the tree, enter e");
-print("you can nodes or terminal objects to the tree with these symbols:");
-
+print("you can append nodes or terminal objects to the tree with these symbols:");
 print("+: adds a Coproduct node");
 print("x: adds a Product node");
 print("t: adds a true terminal (leaf)");
 print("f: adds a false terminal (leaf)");
 print("any integer: adds an integer terminal (leaf)");
+var running = true;
+var sc = scanner::forStdIn();
+while (running) {
+    print("Enter a value:");
+
+    var lineResult = scanner::nextLine(sc);
+    
+    if (lineResult instanceof string){
+        match (lineResult) {
+        case "quit" ->
+           print("Goodbye.");
+            running = false;
+        case "+" ->
+           print("Coproduct Node added");
+        case "x" ->
+           print("Product Node added");
+        case "t" ->
+           print("true");
+        case "f" ->
+           print("false");
+        case "e" ->
+            print (Evaluable::eval(exampletree));
+        case _ -> var strSc = scanner::forString(lineResult);
+            var intResult = scanner::nextInt(strSc);
+            if (intResult instanceof int) {
+               print("{intResult}");
+            } else {
+               print("'{lineResult}' is not a valid selection.");
+            }        
+    }
+    }
+    else{
+         running = false;
+    }
+
+    }
