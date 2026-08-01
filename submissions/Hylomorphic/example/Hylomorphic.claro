@@ -155,7 +155,7 @@ function intrep(b: boolean) -> int{
 function printTree(t: oneof <int, boolean, AST, std::Nothing>, level: int) -> string{
         var stringBuilder = string_builder::create();
         repeat(level -1){
-            stringBuilder = string_builder::add(stringBuilder, "| ");
+            stringBuilder = string_builder::add(stringBuilder, " ");
 
         }
         if (level > 0){
@@ -182,11 +182,15 @@ function printTree(t: oneof <int, boolean, AST, std::Nothing>, level: int) -> st
         return string_builder::build(stringBuilder);
 }
 
+
+
 var exampletree = AST({
     nodetype = Coproduct,
     left = AST ({nodetype = Product, left = 2, right = 3}),
     right = AST ({nodetype = Coproduct, left = std::Nothing, right = 4})
   });
+
+  # the main interactive loop
 print("-------------------------------------------------------------------------------------------------");
 print("to quit, enter quit");
 print("Welcome to Hylomorphic - an interactive visual programming language inspired by category theory");
@@ -220,6 +224,7 @@ while (running) {
         case "f" ->
            print("false");
         case "e" ->
+        print(Prettyprintable::prettyprint(exampletree));
          print (Evaluable::eval(exampletree));
             print (Prettyprintable::prettyprint(Evaluable::eval(exampletree)));
         case _ -> var strSc = scanner::forString(lineResult);

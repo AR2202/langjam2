@@ -36,8 +36,11 @@ FALSE corresponds to 0, as FALSE is the initial object in the Bool category and 
 ## TUI
 Although Hylomorphic is intended as a visual programming language, it currently only has a TUI, due to LoC restriction and no-dependencies challenge of the jam. The graphical representation of the tree is an ASCII string in the terminal.
 
+### Example of an AST
+
+
 ## How Hylomprphic fits the lang jam theme (Corecursion)
-As outlined above, a Hylomorphism is an anamorphism (corecursion) followed by a catamorphism (recursion). In this sense, building an AST is corecursion.
+As outlined above, a Hylomorphism is an anamorphism (corecursion) followed by a catamorphism (recursion). In this sense, building an AST is corecursion. Both the name and the idea of visualizing an AST are related to corecursion.
 
 There is yet another link to corecursion: Hylomorphic is implemented in Claro, a language developed by Jason Steving, who was also one of the organizers of the first programming language jam. Although Claro was not developed in the jam, this shows how the jam's languages inspire other languages and therefore corecursively unfold new programming language ideas.
 
