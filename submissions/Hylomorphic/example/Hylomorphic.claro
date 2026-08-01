@@ -153,12 +153,14 @@ function intrep(b: boolean) -> int{
 }
 
 function printTree(t: oneof <int, boolean, AST, std::Nothing>, level: int) -> string{
-        var emptyString = string_builder::create();
-        repeat(level){
-            emptyString = string_builder::add(emptyString, " ");
+        var stringBuilder = string_builder::create();
+        repeat(level -1){
+            stringBuilder = string_builder::add(stringBuilder, "| ");
 
         }
-        var stringBuilder = string_builder::add(emptyString, "|_");
+        if (level > 0){
+        stringBuilder = string_builder::add(stringBuilder, "|_");
+        }
         if (t instanceof int){           
         stringBuilder = string_builder::add(stringBuilder, t);
 
@@ -172,9 +174,9 @@ function printTree(t: oneof <int, boolean, AST, std::Nothing>, level: int) -> st
         if (t instanceof AST){           
         stringBuilder = string_builder::add(stringBuilder, unwrap(t).nodetype);
         stringBuilder = string_builder::add(stringBuilder, "\n");
-        stringBuilder = string_builder::add(stringBuilder, printTree(unwrap(t).left, level+1));
+        stringBuilder = string_builder::add(stringBuilder, printTree(unwrap(t).right, level+1));
         stringBuilder = string_builder::add(stringBuilder, "\n");
-        stringBuilder = string_builder::add(stringBuilder, printTree(unwrap(t).right, level+1));        
+        stringBuilder = string_builder::add(stringBuilder, printTree(unwrap(t).left, level+1));        
         }
 
         return string_builder::build(stringBuilder);
