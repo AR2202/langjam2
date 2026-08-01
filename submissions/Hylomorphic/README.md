@@ -32,6 +32,10 @@ A node with mixed children casts the boolean to an integer as follows:
 TRUE corresponds to 1, as TRUE is the terminal object in the Bool category and 1 (the singleton set) is the terminal object in Set.
 FALSE corresponds to 0, as FALSE is the initial object in the Bool category and 0 (the empty set) is the initial object in Set.
 
+
+## TUI
+Although Hylomorphic is intended as a visual programming language, it currently only has a TUI, due to LoC restriction and no-dependencies challenge of the jam. The graphical representation of the tree is an ASCII string in the terminal.
+
 ## How Hylomprphic fits the lang jam theme (Corecursion)
 As outlined above, a Hylomorphism is an anamorphism (corecursion) followed by a catamorphism (recursion). In this sense, building an AST is corecursion.
 
