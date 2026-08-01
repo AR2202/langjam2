@@ -113,6 +113,31 @@ implement Prettyprintable<std::Nothing> {
     }
 }
 
+implement Prettyprintable<AST> {
+    function prettyprint(t: AST) -> string{
+        return printTree(t,0);
+    }
+}
+
+implement Prettyprintable<EvalResult> {
+    function prettyprint(e: EvalResult) -> string{
+        var unwrapped = unwrap(e);
+        if (unwrapped instanceof int){
+            return Prettyprintable::prettyprint(unwrapped);
+        }
+        if (unwrapped instanceof boolean){
+            return Prettyprintable::prettyprint(unwrapped);
+        }
+        if (unwrapped instanceof AST){
+            return Prettyprintable::prettyprint(unwrapped);
+        }
+        if (unwrapped instanceof std::Nothing){
+            return Prettyprintable::prettyprint(unwrapped);
+        }
+        return "";
+    }
+}
+
 # integer representation of a boolean
 function intrep(b: boolean) -> int{
   if(b){
@@ -126,6 +151,35 @@ function intrep(b: boolean) -> int{
        return 0;
    }
 }
+
+function printTree(t: oneof <int, boolean, AST, std::Nothing>, level: int) -> string{
+        var emptyString = string_builder::create();
+        repeat(level){
+            emptyString = string_builder::add(emptyString, " ");
+
+        }
+        var stringBuilder = string_builder::add(emptyString, "|_");
+        if (t instanceof int){           
+        stringBuilder = string_builder::add(stringBuilder, t);
+
+        
+        }
+        if (t instanceof boolean){           
+        stringBuilder = string_builder::add(stringBuilder, t);
+
+        
+        }
+        if (t instanceof AST){           
+        stringBuilder = string_builder::add(stringBuilder, unwrap(t).nodetype);
+        stringBuilder = string_builder::add(stringBuilder, "\n");
+        stringBuilder = string_builder::add(stringBuilder, printTree(unwrap(t).left, level+1));
+        stringBuilder = string_builder::add(stringBuilder, "\n");
+        stringBuilder = string_builder::add(stringBuilder, printTree(unwrap(t).right, level+1));        
+        }
+
+        return string_builder::build(stringBuilder);
+}
+
 var exampletree = AST({
     nodetype = Coproduct,
     left = AST ({nodetype = Product, left = 2, right = 3}),
@@ -164,7 +218,8 @@ while (running) {
         case "f" ->
            print("false");
         case "e" ->
-            print (Evaluable::eval(exampletree));
+         print (Evaluable::eval(exampletree));
+            print (Prettyprintable::prettyprint(Evaluable::eval(exampletree)));
         case _ -> var strSc = scanner::forString(lineResult);
             var intResult = scanner::nextInt(strSc);
             if (intResult instanceof int) {
