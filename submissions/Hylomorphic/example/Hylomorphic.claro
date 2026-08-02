@@ -33,6 +33,12 @@ implement Evaluable<std::Nothing> {
     }
 }
 
+# implement Evaluable<EvalResult> {
+#     function eval(e: EvalResult) -> EvalResult{
+#         return e;
+#     }
+# }
+
 implement Evaluable<AST> {
     function eval(t:AST) -> EvalResult {
       var lres = unwrap(Evaluable::eval(unwrap(t).left));
@@ -152,6 +158,7 @@ function intrep(b: boolean) -> int{
    }
 }
 
+# helper for the Prettyprintabel contract
 function printTree(t: oneof <int, boolean, AST, std::Nothing>, level: int) -> string{
         var stringBuilder = string_builder::create();
         repeat(level -1){
@@ -182,21 +189,44 @@ function printTree(t: oneof <int, boolean, AST, std::Nothing>, level: int) -> st
         return string_builder::build(stringBuilder);
 }
 
+#the main building function of the AST
+function appendToTree(t: oneof <int, boolean, AST, std::Nothing>, n: oneof <int, boolean, AST, std::Nothing>) -> oneof <int, boolean, AST, std::Nothing>{
+    
+    if (t instanceof AST) {
+        if (unwrap(t).left instanceof std::Nothing){
+            return AST({nodetype=unwrap(t).nodetype, left=n, right=unwrap(t).right});
+        }
+        var lapp = appendToTree(unwrap(t).left, n);
+        if(lapp == unwrap(t).left){
+            var rapp = appendToTree(unwrap(t).right, n);
+            return AST({nodetype=unwrap(t).nodetype, left=unwrap(t).left, right=rapp});
+        }
+        else{
+            return AST({nodetype=unwrap(t).nodetype, left=lapp, right=unwrap(t).right});
+        }
+        
+    }
+    if (t instanceof std::Nothing){
+        return n;
+    }
+   return t;
 
+}
 
 var exampletree = AST({
     nodetype = Coproduct,
     left = AST ({nodetype = Product, left = 2, right = 3}),
     right = AST ({nodetype = Coproduct, left = std::Nothing, right = 4})
   });
+print(Prettyprintable::prettyprint(exampletree));
 
   # the main interactive loop
 print("-------------------------------------------------------------------------------------------------");
-print("to quit, enter quit");
 print("Welcome to Hylomorphic - an interactive visual programming language inspired by category theory");
 print("-------------------------------------------------------------------------------------------------");
 print("to quit, enter quit");
 print("to evaluate the tree, enter e");
+print("to clear the tree, enter c");
 print("you can append nodes or terminal objects to the tree with these symbols:");
 print("+: adds a Coproduct node");
 print("x: adds a Product node");
@@ -205,6 +235,8 @@ print("f: adds a false terminal (leaf)");
 print("any integer: adds an integer terminal (leaf)");
 var running = true;
 var sc = scanner::forStdIn();
+var newnode: AST;
+var ast:  oneof <int, boolean, AST, std::Nothing> = std::Nothing;
 while (running) {
     print("Enter a value:");
 
@@ -215,26 +247,37 @@ while (running) {
         case "quit" ->
            print("Goodbye.");
             running = false;
+            ast = std::Nothing;
         case "+" ->
-           print("Coproduct Node added");
+           
+           newnode = AST({nodetype=Coproduct, left = std::Nothing, right=std::Nothing});
+           ast = appendToTree(ast,newnode);
+
         case "x" ->
-           print("Product Node added");
+           
+           newnode = AST({nodetype=Product, left = std::Nothing, right=std::Nothing});
+           ast = appendToTree(ast,newnode);
         case "t" ->
-           print("true");
+           ast = appendToTree(ast,true);
+          
         case "f" ->
-           print("false");
+           ast = appendToTree(ast,false);
+         
         case "e" ->
-        print(Prettyprintable::prettyprint(exampletree));
-         print (Evaluable::eval(exampletree));
-            print (Prettyprintable::prettyprint(Evaluable::eval(exampletree)));
+
+           print (Prettyprintable::prettyprint(Evaluable::eval(ast)));
+           ast = std::Nothing;
+        case "c" ->
+           ast = std::Nothing;
         case _ -> var strSc = scanner::forString(lineResult);
             var intResult = scanner::nextInt(strSc);
             if (intResult instanceof int) {
-               print("{intResult}");
+               ast = appendToTree(ast,intResult);
             } else {
-               print("'{lineResult}' is not a valid selection.");
+               print("'{lineResult}' is not a command known to Hylomorphic.");
             }        
     }
+    print(Prettyprintable::prettyprint(EvalResult(ast)));
     }
     else{
          running = false;
