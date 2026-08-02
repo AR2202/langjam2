@@ -36,8 +36,29 @@ FALSE corresponds to 0, as FALSE is the initial object in the Bool category and 
 ## TUI
 Although Hylomorphic is intended as a visual programming language, it currently only has a TUI, due to LoC restriction and no-dependencies challenge of the jam. The graphical representation of the tree is an ASCII string in the terminal.
 
-### Example of an AST
+### TUI commands
+to evaluate the AST, enter `e`
 
+to clear the AST, enter `c`
+
+to evaluate the AST but preserve it, enter `p`
+
+to evaluate and keep the evaluated AST, enter `E`
+
+you can append nodes or terminal objects to the AST with these symbols:
+
+`+`: adds a Coproduct node
+
+`x`: adds a Product node
+
+`t`: adds a true terminal (leaf)
+
+`f`: adds a false terminal (leaf)
+
+any integer: adds an integer terminal (leaf)
+
+### Display of the AST
+The AST is displayed sideways. For left and right to make sense in terms of describing the children, the tree needs to be imagined rotated clockwiseby 90 degrees.
 
 ## How Hylomprphic fits the lang jam theme (Corecursion)
 As outlined above, a Hylomorphism is an anamorphism (corecursion) followed by a catamorphism (recursion). In this sense, building an AST is corecursion. Both the name and the idea of visualizing an AST are related to corecursion.

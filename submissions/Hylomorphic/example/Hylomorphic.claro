@@ -1,7 +1,11 @@
+# a Product node
 atom Product
+# a Coproduct node
 atom Coproduct
+
 # the result of evaluating an AST
 newtype EvalResult: oneof <int, boolean, AST, std::Nothing>
+
 # the AST
 newtype AST :struct {
   nodetype: oneof <Product, Coproduct>, 
@@ -12,8 +16,6 @@ newtype AST :struct {
 contract Evaluable<X> {
     function eval(t: X) -> EvalResult;
 }
-
-
 
 implement Evaluable<int> {
     function eval(i: int) -> EvalResult {       
@@ -32,12 +34,6 @@ implement Evaluable<std::Nothing> {
         return EvalResult(i);
     }
 }
-
-# implement Evaluable<EvalResult> {
-#     function eval(e: EvalResult) -> EvalResult{
-#         return e;
-#     }
-# }
 
 implement Evaluable<AST> {
     function eval(t:AST) -> EvalResult {
@@ -158,7 +154,7 @@ function intrep(b: boolean) -> int{
    }
 }
 
-# helper for the Prettyprintabel contract
+# helper for the Prettyprintable contract
 function printTree(t: oneof <int, boolean, AST, std::Nothing>, level: int) -> string{
         var stringBuilder = string_builder::create();
         repeat(level -1){
@@ -213,21 +209,16 @@ function appendToTree(t: oneof <int, boolean, AST, std::Nothing>, n: oneof <int,
 
 }
 
-var exampletree = AST({
-    nodetype = Coproduct,
-    left = AST ({nodetype = Product, left = 2, right = 3}),
-    right = AST ({nodetype = Coproduct, left = std::Nothing, right = 4})
-  });
-print(Prettyprintable::prettyprint(exampletree));
-
   # the main interactive loop
 print("-------------------------------------------------------------------------------------------------");
 print("Welcome to Hylomorphic - an interactive visual programming language inspired by category theory");
 print("-------------------------------------------------------------------------------------------------");
 print("to quit, enter quit");
-print("to evaluate the tree, enter e");
-print("to clear the tree, enter c");
-print("you can append nodes or terminal objects to the tree with these symbols:");
+print("to evaluate the AST, enter e");
+print("to clear the AST, enter c");
+print("to evaluate the AST but preserve it, enter p");
+print("to evaluate and keep the evaluated AST, enter E");
+print("you can append nodes or terminal objects to the AST with these symbols:");
 print("+: adds a Coproduct node");
 print("x: adds a Product node");
 print("t: adds a true terminal (leaf)");
@@ -248,13 +239,11 @@ while (running) {
            print("Goodbye.");
             running = false;
             ast = std::Nothing;
-        case "+" ->
-           
+        case "+" ->          
            newnode = AST({nodetype=Coproduct, left = std::Nothing, right=std::Nothing});
            ast = appendToTree(ast,newnode);
 
-        case "x" ->
-           
+        case "x" ->          
            newnode = AST({nodetype=Product, left = std::Nothing, right=std::Nothing});
            ast = appendToTree(ast,newnode);
         case "t" ->
@@ -264,11 +253,18 @@ while (running) {
            ast = appendToTree(ast,false);
          
         case "e" ->
-
            print (Prettyprintable::prettyprint(Evaluable::eval(ast)));
            ast = std::Nothing;
+
+        case "p" ->
+           print (Prettyprintable::prettyprint(Evaluable::eval(ast)));
+         
         case "c" ->
            ast = std::Nothing;
+        case "E" ->
+           var evalres = (Evaluable::eval(ast));
+           print (Prettyprintable::prettyprint(evalres));
+           ast = unwrap(evalres);
         case _ -> var strSc = scanner::forString(lineResult);
             var intResult = scanner::nextInt(strSc);
             if (intResult instanceof int) {
@@ -282,5 +278,4 @@ while (running) {
     else{
          running = false;
     }
-
-    }
+}
