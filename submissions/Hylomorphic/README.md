@@ -81,6 +81,10 @@ As outlined above, a Hylomorphism is an anamorphism (corecursion) followed by a 
 
 There is yet another link to corecursion: Hylomorphic is implemented in Claro, a language developed by Jason Steving, who was also one of the organizers of the first programming language jam. Although Claro was not developed in the jam, this shows how the jam's languages inspire other languages and therefore corecursively unfold new programming language ideas.
 
+## A note on mathematical soundness
+
+The allusions to category theory are intended mostly as a parody and should not be mathematically scrutinized. Hylomorphic is not intended as a research language for category theorists. That said, if you discover that any of my claims are blatantly wrong, feel free to point this out to me. I am not a category theory expert.
+
 ## AI usage
 
 AI was used to help with the MODULE.bazel initial setup
