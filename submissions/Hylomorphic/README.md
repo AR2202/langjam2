@@ -81,7 +81,43 @@ There is yet another link to corecursion: Hylomorphic is implemented in Claro, a
 
 AI was used to help with the MODULE.bazel initial setup
 
+## Hylmorphic example usage
 
-### Run these commands from some dir in the project tree.
-bazel build //example:Hylomorphic_bin
-bazel run //example:Hylomorphic_bin
+1. Start the TUI
+From the root directory, run 
+
+`bazel run //example:Hylomorphic_bin`
+
+2. Start the AST with a node, e.g. Product by typing:
+
+`x`
+
+3. Enter an integer
+
+`5`
+
+4. Enter another node, e.g. Coproduct:
+
+`+`
+
+5. Enter another integer:
+
+`3`
+
+
+6. Try evaluating your AST, but preserving it, by entering 
+
+`p`
+
+First, the evaluation result is displayed. It looks the same as your tree because nothing in your AST can be evaluated yet.
+
+Your AST is preserved. 
+
+7. Enter a boolean, eg true by typing: 
+`t`
+
+
+8. Evaluate it: 
+`e`
+
+The result is 20, which corresponds to (3+1) * 5

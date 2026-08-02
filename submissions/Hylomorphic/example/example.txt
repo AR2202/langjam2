@@ -1,0 +1,60 @@
+Hylomorphic example
+------------------
+
+As Hylomorphic does not read source code like most programming languages,
+I can't provide a source file that can be run in Hylomorphic.
+Instead, here are instructions to run programs in the TUI.
+
+1. Start the TUI
+From the root directory, run 
+bazel run //example:Hylomorphic_bin
+2. Start the AST with a node, e.g. Product by typing: x
+Your AST now looks like this:
+
+Product
+|_
+|_
+3. Enter an integer:
+5
+Your AST now looks like this:
+Product
+|_
+|_5
+4. Enter another node, e.g. Coproduct:
++
+Your AST looks like this:
+Product
+|_Coproduct
+ |_
+ |_
+|_5
+5. Enter another integer:
+3
+Your AST now looks like this:
+Product
+|_Coproduct
+ |_
+ |_3
+|_5
+6. Try evaluating your AST, but preserving it, by entering p:
+First, the evaluation result is displayed. It looks the same as your tree because nothing in your AST can be evaluated yet.
+Product
+|_Coproduct
+ |_
+ |_3
+|_5
+Your AST is preserved. 
+Product
+|_Coproduct
+ |_
+ |_3
+|_5
+7. Enter a boolean, eg true by typing: t
+your AST now looks like this:
+Product
+|_Coproduct
+ |_true
+ |_3
+|_5
+8. Evaluate it: e
+The result is 20, which corresponds to (3+1) * 5

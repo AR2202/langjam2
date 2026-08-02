@@ -253,18 +253,25 @@ while (running) {
            ast = appendToTree(ast,false);
          
         case "e" ->
+           print("Result of evaluating the AST:");
+           print("-----------------------------");
            print (Prettyprintable::prettyprint(Evaluable::eval(ast)));
            ast = std::Nothing;
 
         case "p" ->
+           print("Result of evaluating the AST:");
+           print("-----------------------------");
            print (Prettyprintable::prettyprint(Evaluable::eval(ast)));
-         
+           print("Preserving the AST.");
         case "c" ->
            ast = std::Nothing;
         case "E" ->
            var evalres = (Evaluable::eval(ast));
+           print("Result of evaluating the AST:");
+           print("-----------------------------");
            print (Prettyprintable::prettyprint(evalres));
            ast = unwrap(evalres);
+           
         case _ -> var strSc = scanner::forString(lineResult);
             var intResult = scanner::nextInt(strSc);
             if (intResult instanceof int) {
@@ -273,6 +280,8 @@ while (running) {
                print("'{lineResult}' is not a command known to Hylomorphic.");
             }        
     }
+    print("This is your current AST:");
+    print("-------------------------");
     print(Prettyprintable::prettyprint(EvalResult(ast)));
     }
     else{
