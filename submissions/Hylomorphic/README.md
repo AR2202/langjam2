@@ -7,6 +7,9 @@ In category theory, a hylomorphism is an anamorphism (corecursion) followed by a
 ## The rest of the weird naming
 As you might have guessed, the rest of the weired naming is also inspired by category theory. 
 
+## Syntax
+As a visual programming language, Hylomorphic doesn't use text-based source code in the usual sense. Instead, it has a UI in which the programmer builds the AST incrementally by entering one token at a time. The interface accepts symbols for nodes and leafs of the tree as well as commands for evaluating or clearing the tree. See below (TUI) for details.
+
 ## Building the AST
 Hylomorphic has a fundamentally different concept from normal text-based languages. Instead of writing source code, the user builds an AST graphically and evaluates it. The AST can have nodes and terminals (leafs). Each fully saturated node has 2 children.
 
@@ -19,10 +22,12 @@ Hylomorphic supports 2 types of terminals:
 * integers
 * booleans
 
-The tree is extended when the user enters a node or leaf type they would like to enter. The new node or leaf is always appended to the leftmost empty space. If the tree has only terminals in all final layers, it is fully saturated. Nothing can be added to it. It can only be evaluated.
+The tree is extended when the user enters a node or leaf type they would like to append to the AST. The new node or leaf is always appended to the leftmost empty space. If the tree has only terminals in all final layers, it is fully saturated. Nothing can be added to it. It can only be evaluated. Entering more AST symbols (node or leaf types) does nothing to the AST.
 
 ## Evaluating the AST
 Evaluation happens by depth-first traversal. Only fully saturated nodes can be evaluated. Nodes which aren't fully saturated will remain as-is. The tree can be evaluated to another tree or a terminal, depending on whether it is fully saturated. 
+
+When the AST is being evaluated, the user has different choices for what happens to the AST. They can either clear it and start a new tree, preserve the unevaluated tree after displaying the evaulation result or keep the evaluated AST as the new starting point. Details under the TUI instructions.
 
 ### Evaluation rules
 A product node with 2 integer children multiplies the integers. A categorical coproduct in corresponds to a sum in the sense of "sum types". A coproduct node is therefore a sum node. It sums its integer children.
@@ -37,6 +42,7 @@ FALSE corresponds to 0, as FALSE is the initial object in the Bool category and 
 Although Hylomorphic is intended as a visual programming language, it currently only has a TUI, due to LoC restriction and no-dependencies challenge of the jam. The graphical representation of the tree is an ASCII string in the terminal.
 
 ### TUI commands
+
 to evaluate the AST, enter `e`
 
 to clear the AST, enter `c`
@@ -45,11 +51,17 @@ to evaluate the AST but preserve it, enter `p`
 
 to evaluate and keep the evaluated AST, enter `E`
 
+### Symbols for AST extension
+
 you can append nodes or terminal objects to the AST with these symbols:
+
+#### Nodes
 
 `+`: adds a Coproduct node
 
 `x`: adds a Product node
+
+#### Terminals (Leafs)
 
 `t`: adds a true terminal (leaf)
 
@@ -58,7 +70,7 @@ you can append nodes or terminal objects to the AST with these symbols:
 any integer: adds an integer terminal (leaf)
 
 ### Display of the AST
-The AST is displayed sideways. For left and right to make sense in terms of describing the children, the tree needs to be imagined rotated clockwiseby 90 degrees.
+The AST is displayed sideways. For left and right to make sense in terms of describing the children, the tree needs to be imagined rotated clockwiseby 90 degrees. The current state of the AST is displayed after every entry.
 
 ## How Hylomprphic fits the lang jam theme (Corecursion)
 As outlined above, a Hylomorphism is an anamorphism (corecursion) followed by a catamorphism (recursion). In this sense, building an AST is corecursion. Both the name and the idea of visualizing an AST are related to corecursion.
