@@ -9,13 +9,13 @@ Hylomorphic is an interactive, visual programming language that graphically buil
 In category theory, a hylomorphism is an anamorphism (corecursion) followed by a catamorphism (recursion). In this sense, unfolding an AST from a seed structure is corecursive, while evaluating that AST down to a single value is recursive. An interpreter, therefore, is fundamentally a hylomorphism.
 
 ## The rest of the weird naming
-As you might have guessed, the rest of the weired naming is also inspired by category theory. 
+As you might have guessed, the rest of the weird naming is also inspired by category theory. 
 
 ## Syntax
-As a visual programming language, Hylomorphic doesn't use text-based source code in the usual sense. Instead, it has a UI in which the programmer builds the AST incrementally by entering one token at a time. The interface accepts symbols for nodes and leafs of the tree as well as commands for evaluating or clearing the tree. See below (TUI) for details.
+As a visual programming language, Hylomorphic doesn't use text-based source code in the usual sense. Instead, it has a UI in which the programmer builds the AST incrementally by entering one token at a time. The interface accepts symbols for nodes and leaves of the tree as well as commands for evaluating or clearing the tree. See below (TUI) for details.
 
 ## Building the AST
-Hylomorphic has a fundamentally different concept from normal text-based languages. Instead of writing source code, the user builds an AST graphically and evaluates it. The AST can have nodes and terminals (leafs). Each fully saturated node has 2 children.
+Hylomorphic has a fundamentally different concept from normal text-based languages. Instead of writing source code, the user builds an AST graphically and evaluates it. The AST can have nodes and terminals (leaves). Each fully saturated node has 2 children.
 
 ### Node types
 * Product: a product node
@@ -65,7 +65,7 @@ you can append nodes or terminal objects to the AST with these symbols:
 
 `x`: adds a Product node
 
-#### Terminals (Leafs)
+#### Terminals (leaves)
 
 `t`: adds a true terminal (leaf)
 
@@ -76,7 +76,7 @@ any integer: adds an integer terminal (leaf)
 ### Display of the AST
 The AST is displayed sideways. For left and right to make sense in terms of describing the children, the tree needs to be imagined rotated clockwise by 90 degrees. The current state of the AST is displayed after every entry.
 
-## How Hylomprphic fits the lang jam theme (Corecursion)
+## How Hylomorphic fits the lang jam theme (Corecursion)
 As outlined above, a Hylomorphism is an anamorphism (corecursion) followed by a catamorphism (recursion). In this sense, building an AST is corecursion. Both the name and the idea of visualizing an AST are related to corecursion.
 
 There is yet another link to corecursion: Hylomorphic is implemented in Claro, a language developed by Jason Steving, who was also one of the organizers of the first programming language jam. Although Claro was not developed in the jam, this shows how the jam's languages inspire other languages and therefore corecursively unfold new programming language ideas.
