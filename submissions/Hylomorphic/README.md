@@ -1,5 +1,5 @@
 # Hylomorphic 
-
+A visual programming language inspired by category theory.
 ## Author
 Annika Rings
 ## About
@@ -11,7 +11,16 @@ In category theory, a hylomorphism is an anamorphism (corecursion) followed by a
 **this statement specifically refers to an interpreter which builds an AST from a seed (e.g. source code) and evaluates the tree to a result by traversing it.
 
 ## The rest of the weird naming
-As you might have guessed, the rest of the weird naming is also inspired by category theory. 
+As you might have guessed, the rest of the weird naming is also inspired by category theory. You'll come across the terms
+* Product
+* Coproduct
+* Isomorphism/isomorphic
+* Initial object
+* Terminal object
+* Object
+* Morphism
+
+The precise meaning of these is not explained in detail here, only insofar it relates to the execution model of Hylomorphic.
 
 ## Syntax
 As a visual programming language, Hylomorphic doesn't use text-based source code in the usual sense. Instead, it has a UI in which the programmer builds the AST incrementally by entering one token at a time. The interface accepts symbols for nodes and leaves of the tree as well as commands for evaluating or clearing the tree. See below (TUI) for details.
@@ -22,6 +31,7 @@ Hylomorphic has a fundamentally different concept from normal text-based languag
 ### Node types
 * Product: a product node
 * Coproduct: a coproduct (sum) node
+* Iso: an isomorphism node
 
 ### Leaf types
 Hylomorphic supports 2 types of terminals:
@@ -42,6 +52,8 @@ A product node with 2 boolean children performs AND, as AND is the product in th
 A node with mixed children casts the boolean to an integer as follows:
 TRUE corresponds to 1, as TRUE is the terminal object in the Bool category* and 1 (the singleton set) is the terminal object in Set.
 FALSE corresponds to 0, as FALSE is the initial object in the Bool category* and 0 (the empty set) is the initial object in Set.
+
+An isomorphism node checks whether its two children are isomorphic. Integers are seen as representing the cardinality of sets. Two finite sets are isomorphic if and only if they have the same cardinality. The isomorphism node therefore checks equality of integers. The boolean literals are only isomorphic to themselves in Bool*, as there isn't a morphism from TRUE to FALSE (in a category in which the morphism represents implication). Therefore, for boolean children, it also checks equality. 
 
 *Here, Bool refers to the category whose objects are the boolean literals TRUE and FALSE and whose morphisms represent logical implication.
 
