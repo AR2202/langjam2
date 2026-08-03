@@ -6,7 +6,9 @@ Annika Rings
 Hylomorphic is an interactive, visual programming language that graphically builds and evaluates Abstract Syntax Trees (ASTs). Its syntax, naming, and semantics are explicitly inspired by category theory.
 
 ## Hylomorphism
-In category theory, a hylomorphism is an anamorphism (corecursion) followed by a catamorphism (recursion). In this sense, unfolding an AST from a seed structure is corecursive, while evaluating that AST down to a single value is recursive. An interpreter, therefore, is fundamentally a hylomorphism.
+In category theory, a hylomorphism is an anamorphism (corecursion) followed by a catamorphism (recursion). In this sense, unfolding an AST from a seed structure is corecursive, while evaluating that AST down to a single value is recursive. An interpreter**, therefore, is fundamentally a hylomorphism.
+
+**this statement specifically refers to an interpreter which builds an AST from a seed (e.g. source code) and evaluates the tree to a result by traversing it.
 
 ## The rest of the weird naming
 As you might have guessed, the rest of the weird naming is also inspired by category theory. 
