@@ -35,11 +35,13 @@ When the AST is being evaluated, the user has different choices for what happens
 
 ### Evaluation rules
 A product node with 2 integer children multiplies the integers. A categorical coproduct corresponds to a sum in the sense of "sum types". A coproduct node is therefore a sum node. It sums its integer children.
-A product node with 2 boolean children performs AND, as AND is the product in the Bool category. A coproduct node performs OR on 2 boolean children for the equivalent reason (again, think sum types vs product types if you are familiar with algebraic data types).
+A product node with 2 boolean children performs AND, as AND is the product in the Bool category*. A coproduct node performs OR on 2 boolean children for the equivalent reason (again, think sum types vs product types if you are familiar with algebraic data types).
 
 A node with mixed children casts the boolean to an integer as follows:
-TRUE corresponds to 1, as TRUE is the terminal object in the Bool category and 1 (the singleton set) is the terminal object in Set.
-FALSE corresponds to 0, as FALSE is the initial object in the Bool category and 0 (the empty set) is the initial object in Set.
+TRUE corresponds to 1, as TRUE is the terminal object in the Bool category* and 1 (the singleton set) is the terminal object in Set.
+FALSE corresponds to 0, as FALSE is the initial object in the Bool category* and 0 (the empty set) is the initial object in Set.
+
+*Here, Bool refers to the category whose objects are the boolean literals TRUE and FALSE and whose morphisms represent logical implication.
 
 
 ## TUI
