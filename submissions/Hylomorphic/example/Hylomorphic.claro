@@ -2,13 +2,14 @@
 atom Product
 # a Coproduct node
 atom Coproduct
+atom Iso
 
 # the result of evaluating an AST
 newtype EvalResult: oneof <int, boolean, AST, std::Nothing>
 
 # the AST
 newtype AST :struct {
-  nodetype: oneof <Product, Coproduct>, 
+  nodetype: oneof <Product, Coproduct, Iso>, 
   left:  oneof <int, boolean, AST, std::Nothing>,
   right: oneof <int, boolean, AST, std::Nothing>
 }
@@ -46,6 +47,7 @@ implement Evaluable<AST> {
                 return EvalResult(lres + rres);
 
          case _:Product -> return EvalResult( lres * rres);
+         case _:Iso -> return EvalResult( lres == rres);
       }
      
   }
@@ -58,6 +60,7 @@ implement Evaluable<AST> {
          case _:Product -> 
                 # product in the bool category is AND
                 return EvalResult(lres and rres);
+         case _:Iso -> return EvalResult( lres == rres);
       }
       
   }
@@ -68,6 +71,7 @@ implement Evaluable<AST> {
                 return EvalResult( intrep(lres) + rres);
 
          case _:Product -> return EvalResult(intrep(lres) * rres);
+         case _:Iso -> return EvalResult(intrep(lres) == rres);
       }
       }
       if (( rres instanceof boolean) and (lres instanceof int)){
@@ -79,6 +83,7 @@ implement Evaluable<AST> {
 
          case _:Product ->
                  return EvalResult(intrep(rres) * lres);
+         case _:Iso -> return EvalResult( lres == intrep(rres));
       }
       }
  return EvalResult(AST({nodetype=unwrap(t).nodetype, left=lres, right=rres}));
@@ -221,6 +226,7 @@ print("to evaluate and keep the evaluated AST, enter E");
 print("you can append nodes or terminal objects to the AST with these symbols:");
 print("+: adds a Coproduct node");
 print("x: adds a Product node");
+print("i: adds an Isomorphic node");
 print("t: adds a true terminal (leaf)");
 print("f: adds a false terminal (leaf)");
 print("any integer: adds an integer terminal (leaf)");
@@ -245,6 +251,9 @@ while (running) {
 
         case "x" ->          
            newnode = AST({nodetype=Product, left = std::Nothing, right=std::Nothing});
+           ast = appendToTree(ast,newnode);
+        case "i" ->          
+           newnode = AST({nodetype=Iso, left = std::Nothing, right=std::Nothing});
            ast = appendToTree(ast,newnode);
         case "t" ->
            ast = appendToTree(ast,true);
