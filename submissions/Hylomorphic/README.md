@@ -3,24 +3,24 @@ A visual programming language inspired by category theory.
 ## Author
 Annika Rings
 ## About
-Hylomorphic is an interactive, visual programming language that graphically builds and evaluates Abstract Syntax Trees (ASTs). Its syntax, naming, and semantics are explicitly inspired by category theory.
+Hylomorphic is an interactive, visual programming language that graphically builds and evaluates [Abstract Syntax Trees](https://en.wikipedia.org/wiki/Abstract_syntax_tree) (ASTs). Its syntax, naming, and semantics are explicitly inspired by [category theory](https://en.wikipedia.org/wiki/Category_theory).
 
 ## Hylomorphism
-In category theory, a hylomorphism is an anamorphism (corecursion) followed by a catamorphism (recursion). In this sense, unfolding an AST from a seed structure is corecursive, while evaluating that AST down to a single value is recursive. An interpreter**, therefore, is fundamentally a hylomorphism.
+
+In [category theory](https://en.wikipedia.org/wiki/Category_theory), a [hylomorphism](https://en.wikipedia.org/wiki/Hylomorphism_(computer_science)) is an [anamorphism](https://en.wikipedia.org/wiki/Anamorphism) (corecursion) followed by a [catamorphism](https://en.wikipedia.org/wiki/Catamorphism) (recursion). In this sense, unfolding an AST from a seed structure is corecursive, while evaluating that AST down to a single value is recursive. An interpreter**, therefore, is fundamentally a hylomorphism.
 
 **this statement specifically refers to an interpreter which builds an AST from a seed (e.g. source code) and evaluates the tree to a result by traversing it.
 
 ## The rest of the weird naming
 As you might have guessed, the rest of the weird naming is also inspired by category theory. You'll come across the terms
-* Product
-* Coproduct
-* Isomorphism/isomorphic
-* Initial object
-* Terminal object
-* Object
-* Morphism
+* [Product](https://en.wikipedia.org/wiki/Product_(category_theory))
+* [Coproduct](https://en.wikipedia.org/wiki/Coproduct)
+* [Isomorphism/isomorphic](https://en.wikipedia.org/wiki/Isomorphism)
+* [Initial object](https://en.wikipedia.org/wiki/Initial_and_terminal_objects)
+* [Terminal object](https://en.wikipedia.org/wiki/Initial_and_terminal_objects)
+* [Morphism](https://en.wikipedia.org/wiki/Morphism)
 
-The precise meaning of these is not explained in detail here, only insofar it relates to the execution model of Hylomorphic.
+The precise meaning of these is not explained in detail here, only insofar it relates to the execution model of Hylomorphic. See the links for details.
 
 ## Syntax
 As a visual programming language, Hylomorphic doesn't use text-based source code in the usual sense. Instead, it has a UI in which the programmer builds the AST incrementally by entering one token at a time. The interface accepts symbols for nodes and leaves of the tree as well as commands for evaluating or clearing the tree. See below (TUI) for details.
