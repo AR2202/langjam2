@@ -81,6 +81,8 @@ you can append nodes or terminal objects to the AST with these symbols:
 
 `x`: adds a Product node
 
+`i`: adds an Isomorphism node
+
 #### Terminals (leaves)
 
 `t`: adds a true terminal (leaf)
@@ -95,7 +97,7 @@ The AST is displayed sideways. For left and right to make sense in terms of desc
 ## How Hylomorphic fits the lang jam theme (Corecursion)
 As outlined above, a Hylomorphism is an anamorphism (corecursion) followed by a catamorphism (recursion). In this sense, building an AST is corecursion. Both the name and the idea of visualizing an AST are related to corecursion.
 
-There is yet another link to corecursion: Hylomorphic is implemented in Claro, a language developed by Jason Steving, who was also one of the organizers of the first programming language jam. Although Claro was not developed in the jam, this shows how the jam's languages inspire other languages and therefore corecursively unfold new programming language ideas.
+There is yet another link to corecursion: Hylomorphic is implemented in [Claro](https://docs.clarolang.com/), a language developed by Jason Steving, who was also one of the organizers of the first programming language jam. Although Claro was not developed in the jam, this shows how the jam's languages inspire other languages and therefore corecursively unfold new programming language ideas.
 
 ## A note on mathematical soundness
 
@@ -103,9 +105,9 @@ The allusions to category theory are intended mostly as a parody and should not 
 
 ## AI usage
 
-AI was used to help with the MODULE.bazel initial setup
+AI was used to help with the MODULE.bazel initial setup, to write the Dockerfile, and to sense check my category theory analogies (without actually changing any of them after the check).
 
-## Hylmorphic example usage
+## Hylomorphic example usage
 
 1. Start the TUI
 From the root directory, run 
