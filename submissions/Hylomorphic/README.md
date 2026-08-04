@@ -147,3 +147,5 @@ Your AST is preserved.
 `e`
 
 The result is 20, which corresponds to (3+1) * 5
+
+[more examples](https://github.com/AR2202/langjam2/blob/main/submissions/Hylomorphic/example/example.txt)
