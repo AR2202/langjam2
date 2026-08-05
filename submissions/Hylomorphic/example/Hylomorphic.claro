@@ -142,9 +142,13 @@ implement Prettyprintable<EvalResult> {
             return Prettyprintable::prettyprint(unwrapped);
         }
         return "";
+        #return evalPrintHelper(unwrapped);
     }
 }
-
+requires(Prettyprintable<T>) 
+function evalPrintHelper<T>(t:T) -> string{
+    return Prettyprintable::prettyprint(t);
+}
 # integer representation of a boolean
 function intrep(b: boolean) -> int{
   if(b){

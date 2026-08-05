@@ -1,0 +1,17 @@
+{
+  "name": "Hylomorphic (Claro TUI)",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "features": {
+    // Installs Java (JDK 17+) required to run the Claro compiler CLI
+    "ghcr.io/devcontainers/features/java:1": {
+      "version": "17"
+    },
+    // Installs Bazelisk (which manages and invokes the correct Bazel version)
+    "ghcr.io/devcontainers-extra/features/bazelisk:1": {}
+  },
+  // Ensure UTF-8 Unicode terminal rendering works out of the box for your TUI box-drawing characters
+  "containerEnv": {
+    "LANG": "C.UTF-8",
+    "LC_ALL": "C.UTF-8"
+  }
+}
