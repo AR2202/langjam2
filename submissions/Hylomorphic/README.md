@@ -107,6 +107,17 @@ The allusions to category theory are intended mostly as a parody and should not 
 
 AI was used to help with the MODULE.bazel initial setup, to write the Dockerfile, and to sense check my category theory analogies (without actually changing any of them after the check).
 
+## How to run via GitHub Codespaces
+1. Click [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/AR2202/langjam2?devcontainer_path=.devcontainer%2Fdevcontainer.json)
+
+2. Once the container finishes loading, open the integrated terminal.
+
+3. Run the following commands:
+
+`cd submissions/Hylomorphic`
+
+`bazel run //example:Hylomorphic_bin`
+
 ## Hylomorphic example usage
 
 1. Start the TUI
