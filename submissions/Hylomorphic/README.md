@@ -118,6 +118,8 @@ AI was used to help with the MODULE.bazel initial setup, to write the Dockerfile
 
 `bazel run //example:Hylomorphic_bin`
 
+This may take a while, especially on the first run.
+
 ## Hylomorphic example usage
 
 1. Start the TUI
