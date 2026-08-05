@@ -120,6 +120,10 @@ AI was used to help with the MODULE.bazel initial setup, to write the Dockerfile
 
 This may take a while, especially on the first run.
 
+If this is your only usage of GituHub Codespaces, it is unlikely to exceed your free allowance if you use it a reasonable amount of time per month.
+
+If you prefer to run it locally, bazel will be required.
+
 ## Hylomorphic example usage
 
 1. Start the TUI
