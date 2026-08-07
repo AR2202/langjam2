@@ -2,6 +2,7 @@
 atom Product
 # a Coproduct node
 atom Coproduct
+# an isomorphic node
 atom Iso
 
 # the result of evaluating an AST
@@ -142,13 +143,10 @@ implement Prettyprintable<EvalResult> {
             return Prettyprintable::prettyprint(unwrapped);
         }
         return "";
-        #return evalPrintHelper(unwrapped);
+
     }
 }
-requires(Prettyprintable<T>) 
-function evalPrintHelper<T>(t:T) -> string{
-    return Prettyprintable::prettyprint(t);
-}
+
 # integer representation of a boolean
 function intrep(b: boolean) -> int{
   if(b){
@@ -157,7 +155,7 @@ function intrep(b: boolean) -> int{
        return 1;
        }
        else{
-       # False is the terminal object in the Bool category
+       # False is the initial object in the Bool category
        # as is the empty set (0) in Set
        return 0;
    }
@@ -215,14 +213,66 @@ function appendToTree(t: oneof <int, boolean, AST, std::Nothing>, n: oneof <int,
         return n;
     }
    return t;
+}
+
+
+
+
+blocking consumer demo(strs:[string]){
+   
+    print("----");
+    
+    var scin = scanner::forStdIn();
+
+    
+    var curr_tree:  oneof <int, boolean, AST, std::Nothing> = std::Nothing;
+    var symbols: {string:oneof <int, boolean, AST, std::Nothing>} = {
+        "t":true, 
+        "f":false,
+        "x":AST({nodetype=Product, left = std::Nothing, right=std::Nothing}),
+        "+":AST({nodetype=Coproduct, left = std::Nothing, right=std::Nothing}),
+        "i":AST({nodetype=Iso, left = std::Nothing, right=std::Nothing})};
+    for (s in strs){
+        print(s);
+        print("press Enter to continue");
+        
+         _ = scanner::nextLine(scin);
+        
+        if (s in symbols){
+        curr_tree = appendToTree(curr_tree,symbols[s]);
+        }
+        print("This is your current AST:");
+        print("-------------------------");
+        print(Prettyprintable::prettyprint(EvalResult(curr_tree)));
+        print("press Enter to continue");
+        
+         _ = scanner::nextLine(scin);
+
+
+
+
+    }
+    print("Result of evaluating the AST:");
+    print("-----------------------------");
+    print (Prettyprintable::prettyprint(Evaluable::eval(curr_tree)));
+    print("-----------------------------");
+    print("end of demo");
+     print("-----------------------------");
+
+
+
 
 }
+
+
 
   # the main interactive loop
 print("-------------------------------------------------------------------------------------------------");
 print("Welcome to Hylomorphic - an interactive visual programming language inspired by category theory");
 print("-------------------------------------------------------------------------------------------------");
+
 print("to quit, enter quit");
+print("for a demo, enter demo");
 print("to evaluate the AST, enter e");
 print("to clear the AST, enter c");
 print("to evaluate the AST but preserve it, enter p");
@@ -249,6 +299,10 @@ while (running) {
            print("Goodbye.");
             running = false;
             ast = std::Nothing;
+        case "demo" ->
+        
+        demo(["i", "x","t","f","+","t","f"]);
+
         case "+" ->          
            newnode = AST({nodetype=Coproduct, left = std::Nothing, right=std::Nothing});
            ast = appendToTree(ast,newnode);

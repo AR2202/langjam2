@@ -47,7 +47,7 @@ When the AST is being evaluated, the user has different choices for what happens
 
 ### Evaluation rules
 A product node with 2 integer children multiplies the integers. A categorical coproduct corresponds to a sum in the sense of "sum types". A coproduct node is therefore a sum node. It sums its integer children.
-A product node with 2 boolean children performs AND, as AND is the product in the Bool category*. A coproduct node performs OR on 2 boolean children for the equivalent reason (again, think sum types vs product types if you are familiar with algebraic data types).
+A product node with 2 boolean children performs AND, as AND is the product in the Bool category*. A coproduct node performs OR on 2 boolean children for the equivalent reason (again, think sum types vs product types if you are familiar with [algebraic data types](https://en.wikipedia.org/wiki/Algebraic_data_type)).
 
 A node with mixed children casts the boolean to an integer as follows:
 TRUE corresponds to 1, as TRUE is the terminal object in the Bool category* and 1 (the singleton set) is the terminal object in Set.
@@ -71,9 +71,13 @@ to evaluate the AST but preserve it, enter `p`
 
 to evaluate and keep the evaluated AST, enter `E`
 
+to get a short demo, enter `demo`
+
+to quit, enter `quit`
+
 ### Symbols for AST extension
 
-you can append nodes or terminal objects to the AST with these symbols:
+you can append nodes or leaves to the AST with these symbols:
 
 #### Nodes
 
@@ -105,7 +109,7 @@ The allusions to category theory are intended mostly as a parody and should not 
 
 ## AI usage
 
-AI was used to help with the MODULE.bazel initial setup, to write the Dockerfile, and to sense check my category theory analogies (without actually changing any of them after the check).
+AI was used to help with the MODULE.bazel initial setup, to write the Dockerfile, to set up the GitHub codespace and to sense check my category theory analogies (without actually changing any of them after the check).
 
 ## How to run via GitHub Codespaces
 1. Click [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/AR2202/langjam2?devcontainer_path=.devcontainer%2Fdevcontainer.json)
