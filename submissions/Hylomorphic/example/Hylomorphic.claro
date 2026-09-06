@@ -4,13 +4,19 @@ atom Product
 atom Coproduct
 # an isomorphic node
 atom Iso
+# an if node
+atom If
+# a branch node
+# a hack to retrofit the 3-child if node
+# to the prior design of the AST
+atom Branch
 
 # the result of evaluating an AST
 newtype EvalResult: oneof <int, boolean, AST, std::Nothing>
 
 # the AST
 newtype AST :struct {
-  nodetype: oneof <Product, Coproduct, Iso>, 
+  nodetype: oneof <Product, Coproduct, Iso, If, Branch>, 
   left:  oneof <int, boolean, AST, std::Nothing>,
   right: oneof <int, boolean, AST, std::Nothing>
 }
@@ -41,6 +47,7 @@ implement Evaluable<AST> {
     function eval(t:AST) -> EvalResult {
       var lres = unwrap(Evaluable::eval(unwrap(t).left));
       var rres = unwrap(Evaluable::eval(unwrap(t).right));
+      
       if (( lres instanceof int) and (rres instanceof int)){
         match (unwrap(t).nodetype){
          case _:Coproduct -> 
@@ -49,6 +56,8 @@ implement Evaluable<AST> {
 
          case _:Product -> return EvalResult( lres * rres);
          case _:Iso -> return EvalResult( lres == rres);
+         case _ ->  return EvalResult(AST({nodetype=unwrap(t).nodetype, left=lres, right=rres}));
+
       }
      
   }
@@ -62,6 +71,8 @@ implement Evaluable<AST> {
                 # product in the bool category is AND
                 return EvalResult(lres and rres);
          case _:Iso -> return EvalResult( lres == rres);
+         case _ ->  return EvalResult(AST({nodetype=unwrap(t).nodetype, left=lres, right=rres}));
+
       }
       
   }
@@ -73,6 +84,8 @@ implement Evaluable<AST> {
 
          case _:Product -> return EvalResult(intrep(lres) * rres);
          case _:Iso -> return EvalResult(intrep(lres) == rres);
+         case _ ->  return EvalResult(AST({nodetype=unwrap(t).nodetype, left=lres, right=rres}));
+
       }
       }
       if (( rres instanceof boolean) and (lres instanceof int)){
@@ -85,6 +98,54 @@ implement Evaluable<AST> {
          case _:Product ->
                  return EvalResult(intrep(rres) * lres);
          case _:Iso -> return EvalResult( lres == intrep(rres));
+         case _ ->  return EvalResult(AST({nodetype=unwrap(t).nodetype, left=lres, right=rres}));
+
+      }
+      }
+      if (( lres instanceof boolean) and (rres instanceof AST)){
+        match (unwrap(t).nodetype){
+         case _:If -> 
+            match (unwrap(rres).nodetype){
+                case _:Branch -> 
+                    if (lres){
+                        return EvalResult(unwrap(rres).left);
+
+                    }
+                    else {
+                        return EvalResult(unwrap(rres).right);
+
+                    }
+                case _ ->
+                    return EvalResult(AST({nodetype=unwrap(t).nodetype, left=lres, right=rres}));
+
+            }
+                 
+         case _ ->
+                    return EvalResult(AST({nodetype=unwrap(t).nodetype, left=lres, right=rres}));
+
+      }
+      }
+      if (( lres instanceof int) and (rres instanceof AST)){
+        match (unwrap(t).nodetype){
+         case _:If -> 
+            match (unwrap(rres).nodetype){
+                case _:Branch -> 
+                    if (boolrep(lres)){
+                        return EvalResult(unwrap(rres).left);
+
+                    }
+                    else {
+                        return EvalResult(unwrap(rres).right);
+
+                    }
+                case _ ->
+                    return EvalResult(AST({nodetype=unwrap(t).nodetype, left=lres, right=rres}));
+
+            }
+                     
+         case _ ->
+                    return EvalResult(AST({nodetype=unwrap(t).nodetype, left=lres, right=rres}));
+
       }
       }
  return EvalResult(AST({nodetype=unwrap(t).nodetype, left=lres, right=rres}));
@@ -161,6 +222,18 @@ function intrep(b: boolean) -> int{
    }
 }
 
+# boolean representation of an integer
+function boolrep(i: int) -> boolean{
+  if(i == 0){
+       # using the left adjoint (functor) to the intrep functor
+       return false;
+       }
+       else{
+
+       return true;
+   }
+}
+
 # helper for the Prettyprintable contract
 function printTree(t: oneof <int, boolean, AST, std::Nothing>, level: int) -> string{
         var stringBuilder = string_builder::create();
@@ -229,6 +302,7 @@ consumer menu(ignored:string){
     print("+: adds a Coproduct node");
     print("x: adds a Product node");
     print("i: adds an Isomorphic node");
+    print("if: adds an If node");
     print("t: adds a true terminal (leaf)");
     print("f: adds a false terminal (leaf)");
     print("any integer: adds an integer terminal (leaf)");
@@ -320,6 +394,9 @@ while (running) {
            ast = appendToTree(ast,newnode);
         case "i" ->          
            newnode = AST({nodetype=Iso, left = std::Nothing, right=std::Nothing});
+           ast = appendToTree(ast,newnode);
+        case "if" ->          
+           newnode = AST({nodetype=If, left = std::Nothing, right=AST({nodetype=Branch, left = std::Nothing, right=std::Nothing})});
            ast = appendToTree(ast,newnode);
         case "t" ->
            ast = appendToTree(ast,true);
