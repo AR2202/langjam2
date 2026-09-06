@@ -32,6 +32,7 @@ Hylomorphic has a fundamentally different concept from normal text-based languag
 * Product: a product node
 * Coproduct: a coproduct (sum) node
 * Iso: an isomorphism node
+* If: an if node
 
 ### Leaf types
 Hylomorphic supports 2 types of terminals:
@@ -56,6 +57,13 @@ FALSE corresponds to 0, as FALSE is the initial object in the Bool category* and
 An isomorphism node checks whether its two children are isomorphic. Integers are seen as representing the cardinality of sets. Two finite sets are isomorphic if and only if they have the same cardinality. The isomorphism node therefore checks equality of integers. The boolean literals are only isomorphic to themselves in Bool*, as there isn't a morphism from TRUE to FALSE (in a category in which the morphism represents implication). Therefore, for boolean children, it also checks equality. 
 
 *Here, Bool refers to the category whose objects are the boolean literals TRUE and FALSE and whose morphisms represent logical implication.
+
+### EDIT: New If node functionality
+
+An If node has a boolean left child and a right child Branch node with 2 branches: the if (left) and the else (right).
+The if branch is executed if the boolean left child of the If node is true, otherwise the else branch is executed.
+If the left child of the If node evaluates to an integer, the integer is cast to the boolean according to the [left adjoint functor](https://en.wikipedia.org/wiki/Adjoint_functors) to the functor from Bool -> Set that casts booleans to integers (see above). The left adjoint to this functor behaves as follows: if casts 0 to FALSE and all other integers to TRUE.
+
 
 
 ## TUI
@@ -86,6 +94,8 @@ you can append nodes or leaves to the AST with these symbols:
 `x`: adds a Product node
 
 `i`: adds an Isomorphism node
+
+`if`: adds an If node
 
 #### Terminals (leaves)
 
