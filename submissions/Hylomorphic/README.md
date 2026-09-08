@@ -19,6 +19,8 @@ As you might have guessed, the rest of the weird naming is also inspired by cate
 * [Initial object](https://en.wikipedia.org/wiki/Initial_and_terminal_objects)
 * [Terminal object](https://en.wikipedia.org/wiki/Initial_and_terminal_objects)
 * [Morphism](https://en.wikipedia.org/wiki/Morphism)
+* [Functor](https://en.wikipedia.org/wiki/Functor)
+* [Adjoint functors](https://en.wikipedia.org/wiki/Adjoint_functors)
 
 The precise meaning of these is not explained in detail here, only insofar it relates to the execution model of Hylomorphic. See the links for details.
 
@@ -52,7 +54,7 @@ A product node with 2 boolean children performs AND, as AND is the product in th
 
 A node with mixed children casts the boolean to an integer as follows:
 TRUE corresponds to 1, as TRUE is the terminal object in the Bool category* and 1 (the singleton set) is the terminal object in Set.
-FALSE corresponds to 0, as FALSE is the initial object in the Bool category* and 0 (the empty set) is the initial object in Set. Preserving initial and terminal objects ensures this mapping fulfills the functoriality condition and therefore this is a functor Bool -> Set.
+FALSE corresponds to 0, as FALSE is the initial object in the Bool category* and 0 (the empty set) is the initial object in Set. Preserving initial and terminal objects ensures this mapping fulfills the functoriality condition and therefore this is a [functor](https://en.wikipedia.org/wiki/Functor) Bool -> Set.
 
 An isomorphism node checks whether its two children are isomorphic. Integers are seen as representing the cardinality of sets. Two finite sets are isomorphic if and only if they have the same cardinality. The isomorphism node therefore checks equality of integers. The boolean literals are only isomorphic to themselves in Bool*, as there isn't a morphism from TRUE to FALSE (in a category in which the morphism represents implication). Therefore, for boolean children, it also checks equality. 
 
