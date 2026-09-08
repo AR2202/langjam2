@@ -52,7 +52,7 @@ A product node with 2 boolean children performs AND, as AND is the product in th
 
 A node with mixed children casts the boolean to an integer as follows:
 TRUE corresponds to 1, as TRUE is the terminal object in the Bool category* and 1 (the singleton set) is the terminal object in Set.
-FALSE corresponds to 0, as FALSE is the initial object in the Bool category* and 0 (the empty set) is the initial object in Set.
+FALSE corresponds to 0, as FALSE is the initial object in the Bool category* and 0 (the empty set) is the initial object in Set. Preserving initial and terminal objects ensures this mapping fulfills the functoriality condition and therefore this is a functor Bool -> Set.
 
 An isomorphism node checks whether its two children are isomorphic. Integers are seen as representing the cardinality of sets. Two finite sets are isomorphic if and only if they have the same cardinality. The isomorphism node therefore checks equality of integers. The boolean literals are only isomorphic to themselves in Bool*, as there isn't a morphism from TRUE to FALSE (in a category in which the morphism represents implication). Therefore, for boolean children, it also checks equality. 
 
@@ -62,7 +62,10 @@ An isomorphism node checks whether its two children are isomorphic. Integers are
 
 An If node has a boolean left child and a right child Branch node with 2 branches: the if (left) and the else (right).
 The if branch is executed if the boolean left child of the If node is true, otherwise the else branch is executed.
+
 If the left child of the If node evaluates to an integer, the integer is cast to the boolean according to the [left adjoint functor](https://en.wikipedia.org/wiki/Adjoint_functors) to the functor from Bool -> Set that casts booleans to integers (see above). The left adjoint to this functor behaves as follows: if casts 0 to FALSE and all other integers to TRUE.
+
+Note: this functor also has a right adjoint which maps everything except 1 to FALSE, and there is an alternative universe in which I picked the right adjoint instead. This is not that universe.
 
 
 
