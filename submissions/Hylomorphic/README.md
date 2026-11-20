@@ -11,6 +11,8 @@ In [category theory](https://en.wikipedia.org/wiki/Category_theory), a [hylomorp
 
 **this statement specifically refers to an interpreter which builds an AST from a seed (e.g. source code) and evaluates the tree to a result by traversing it.
 
+![Interpreter as a hylomorphism: the source code (2+8) * (4*3) is unfolded by corecursion into an AST, which is folded by recursion into the result 120](images/slide-02.png)
+
 ## The rest of the weird naming
 As you might have guessed, the rest of the weird naming is also inspired by category theory. You'll come across the terms
 * [Product](https://en.wikipedia.org/wiki/Product_(category_theory))
@@ -43,19 +45,44 @@ Hylomorphic supports 2 types of terminals:
 
 The AST is extended when the user enters a node or leaf type they would like to append to the AST. The new node or leaf is always appended to the leftmost empty space. If the tree has only terminals in all final layers, it is fully saturated. Nothing can be added to it. It can only be evaluated. Entering more AST symbols (node or leaf types) does nothing to the AST. Entering anything other than a valid symbol or command has no effect.
 
+![The Hylomorphic TUI showing the welcome menu and the AST after entering a Product node](images/tui-screenshot.png)
+
 ## Evaluating the AST
 Evaluation happens by depth-first traversal. Only fully saturated nodes can be evaluated. Nodes which aren't fully saturated will remain as-is. The tree can be evaluated to another tree or a terminal, depending on whether it is fully saturated. 
 
 When the AST is being evaluated, the user has different choices for what happens to the AST. They can either clear it and start a new tree, preserve the unevaluated tree after displaying the evaulation result or keep the evaluated AST as the new starting point. Details under the TUI instructions.
 
-### Evaluation rules
-A product node with 2 integer children multiplies the integers. A categorical coproduct corresponds to a sum in the sense of "sum types". A coproduct node is therefore a sum node. It sums its integer children.
-A product node with 2 boolean children performs AND, as AND is the product in the Bool category*. A coproduct node performs OR on 2 boolean children for the equivalent reason (again, think sum types vs product types if you are familiar with [algebraic data types](https://en.wikipedia.org/wiki/Algebraic_data_type)).
+### The Bool category
 
+![The Bool category: objects True and False, each with an identity arrow, and an arrow from False to True labelled "implies"](images/slide-07.png)
+
+### Evaluation rules
+
+![AST nodes and leaves: Product multiplies integers and ANDs booleans, Coproduct adds integers and ORs booleans, Iso checks equality of both; mixed children cast bool to int](images/slide-06.png)
+
+#### Product
+A product node with 2 integer children multiplies the integers.
+
+![Categorical product: A x B with projection arrows to A and B, fulfilling the universal property](images/slide-09.png)
+
+A product node with 2 boolean children performs AND, as AND is the product in the Bool category*.
+
+![Categorical product in Bool: A AND B with arrows to A and B, shown for all four combinations of TRUE and FALSE, with the universal property arrow from FALSE to TRUE](images/slide-10.png)
+
+#### Coproduct
+A categorical coproduct corresponds to a sum in the sense of "sum types". A coproduct node is therefore a sum node. It sums its integer children.
+A coproduct node performs OR on 2 boolean children, as OR is the coproduct in the Bool category* (again, think sum types vs product types if you are familiar with [algebraic data types](https://en.wikipedia.org/wiki/Algebraic_data_type)).
+
+![Categorical coproduct in Bool: arrows from A and B into A OR B, shown for all four combinations of TRUE and FALSE, with the universal property arrow from FALSE to TRUE](images/slide-11.png)
+
+#### Mixed children
 A node with mixed children casts the boolean to an integer as follows:
 TRUE corresponds to 1, as TRUE is the terminal object in the Bool category* and 1 (the singleton set) is the terminal object in Set.
 FALSE corresponds to 0, as FALSE is the initial object in the Bool category* and 0 (the empty set) is the initial object in Set. Preserving initial and terminal objects ensures this mapping fulfills the functoriality condition and therefore this is a [functor](https://en.wikipedia.org/wiki/Functor) Bool -> Set.
 
+![Casting bool to int categorically: True is the terminal object in Bool and corresponds to 1, the terminal object in Set; False is the initial object and corresponds to 0, the initial object in Set](images/slide-08.png)
+
+#### Isomorphism
 An isomorphism node checks whether its two children are isomorphic. Integers are seen as representing the cardinality of sets. Two finite sets are isomorphic if and only if they have the same cardinality. The isomorphism node therefore checks equality of integers. The boolean literals are only isomorphic to themselves in Bool*, as there isn't a morphism from TRUE to FALSE (in a category in which the morphism represents implication). Therefore, for boolean children, it also checks equality. 
 
 *Here, Bool refers to the category whose objects are the boolean literals TRUE and FALSE and whose morphisms represent logical implication.
@@ -65,9 +92,15 @@ An isomorphism node checks whether its two children are isomorphic. Integers are
 An If node has a boolean left child and a right child Branch node with 2 branches: the if (left) and the else (right).
 The if branch is executed if the boolean left child of the If node is true, otherwise the else branch is executed.
 
-If the left child of the If node evaluates to an integer, the integer is cast to the boolean according to the [left adjoint functor](https://en.wikipedia.org/wiki/Adjoint_functors) to the functor from Bool -> Set that casts booleans to integers (see above). The left adjoint to this functor behaves as follows: if casts 0 to FALSE and all other integers to TRUE.
+![If node: the If node has a Bool condition as its left child and a Branch node as its right child, whose children are the if and else branches](images/slide-12.png)
+
+If the left child of the If node evaluates to an integer, the integer is cast to the boolean according to the [left adjoint functor](https://en.wikipedia.org/wiki/Adjoint_functors) to the functor from Bool -> Set that casts booleans to integers (see above). The left adjoint to this functor behaves as follows: it casts 0 to FALSE and all other integers to TRUE.
+
+![If nodes with an integer condition: the left adjoint maps 0 to FALSE and every other integer to TRUE](images/slide-13.png)
 
 Note: this functor also has a right adjoint which maps everything except 1 to FALSE, and there is an alternative universe in which I picked the right adjoint instead. This is not that universe.
+
+![Left and right adjoint: the left adjoint maps 0 to FALSE and all other integers to TRUE; the right adjoint maps 1 to TRUE and all other integers to FALSE](images/slide-14.png)
 
 
 

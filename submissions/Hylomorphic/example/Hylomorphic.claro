@@ -177,7 +177,7 @@ implement Prettyprintable<boolean> {
 
 implement Prettyprintable<std::Nothing> {
     function prettyprint(ignored:std::Nothing) -> string{
-        _ = ignored;
+         _ = ignored;
          return "";
     }
 }
