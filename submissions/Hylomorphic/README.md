@@ -98,6 +98,8 @@ If the left child of the If node evaluates to an integer, the integer is cast to
 
 ![If nodes with an integer condition: the left adjoint maps 0 to FALSE and every other integer to TRUE](images/slide-13.png)
 
+![Why it is the left adjoint: L(n) -> b in Bool corresponds to n -> Cast(b) in Set; n = 0 has a function to both 0 and 1, so L(0) is FALSE, while any other n has a function only to 1, so L(n) is TRUE](images/slide-14.png)
+
 
 
 ## TUI
