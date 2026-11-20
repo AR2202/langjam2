@@ -78,7 +78,7 @@ A coproduct node performs OR on 2 boolean children, as OR is the coproduct in th
 #### Mixed children
 A node with mixed children casts the boolean to an integer as follows:
 TRUE corresponds to 1, as TRUE is the terminal object in the Bool category* and 1 (the singleton set) is the terminal object in Set.
-FALSE corresponds to 0, as FALSE is the initial object in the Bool category* and 0 (the empty set) is the initial object in Set. Preserving initial and terminal objects ensures this mapping fulfills the functoriality condition and therefore this is a [functor](https://en.wikipedia.org/wiki/Functor) Bool -> Set.
+FALSE corresponds to 0, as FALSE is the initial object in the Bool category* and 0 (the empty set) is the initial object in Set. This mapping sends the single non-identity morphism FALSE -> TRUE to the unique map from the empty set to the singleton set, so it preserves identities and composition and is therefore a [functor](https://en.wikipedia.org/wiki/Functor) Bool -> Set. It also preserves the initial and terminal objects.
 
 ![Casting bool to int categorically: True is the terminal object in Bool and corresponds to 1, the terminal object in Set; False is the initial object and corresponds to 0, the initial object in Set](images/slide-08.png)
 
@@ -159,7 +159,7 @@ Strictly speaking, the categorical interpretation of integers used here only wor
 
 ## AI usage
 
-AI was used to help with the MODULE.bazel initial setup, to write the Dockerfile, to set up the GitHub codespace and to sense check my category theory analogies (without actually changing any of them after the check).
+AI was used to help with the MODULE.bazel initial setup, to write the Dockerfile, to set up the GitHub codespace and to sense check my category theory analogies.
 
 AI helped add illustrations to the README.
 
