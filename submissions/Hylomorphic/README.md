@@ -45,7 +45,7 @@ Hylomorphic supports 2 types of terminals:
 
 The AST is extended when the user enters a node or leaf type they would like to append to the AST. The new node or leaf is always appended to the leftmost empty space. If the tree has only terminals in all final layers, it is fully saturated. Nothing can be added to it. It can only be evaluated. Entering more AST symbols (node or leaf types) does nothing to the AST. Entering anything other than a valid symbol or command has no effect.
 
-![The Hylomorphic TUI showing the welcome menu and the AST after entering a Product node](images/tui-screenshot.png)
+![The TUI displaying an AST sideways: a Product node with a Coproduct child (children true and 3) and the leaf 5](images/tui-ast.png)
 
 ## Evaluating the AST
 Evaluation happens by depth-first traversal. Only fully saturated nodes can be evaluated. Nodes which aren't fully saturated will remain as-is. The tree can be evaluated to another tree or a terminal, depending on whether it is fully saturated. 
@@ -107,6 +107,8 @@ Note: this functor also has a right adjoint which maps everything except 1 to FA
 ## TUI
 Although Hylomorphic is intended as a visual programming language, it currently only has a TUI, due to LoC restriction and no-dependencies challenge of the jam. The graphical representation of the tree is an ASCII string in the terminal.
 
+![The Hylomorphic TUI welcome menu listing the commands and the symbols for appending nodes and terminals to the AST](images/tui-menu.png)
+
 ### TUI commands
 
 to evaluate the AST, enter `e`
@@ -159,6 +161,8 @@ The allusions to category theory are intended mostly as a parody and should not 
 
 AI was used to help with the MODULE.bazel initial setup, to write the Dockerfile, to set up the GitHub codespace and to sense check my category theory analogies (without actually changing any of them after the check).
 
+AI helped add illustrations to the README.
+
 ## How to run via GitHub Codespaces
 1. Click [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/AR2202/langjam2?devcontainer_path=.devcontainer%2Fdevcontainer.json)
 
@@ -199,18 +203,25 @@ From the root directory, run
 
 `x`
 
+![TUI after entering x: a Product node with two empty children](images/example-step2.png)
+
 3. Enter an integer
 
 `5`
+
+![TUI after entering 5: the Product node now has the leaf 5 and one empty child](images/example-step3.png)
 
 4. Enter another node, e.g. Coproduct:
 
 `+`
 
+![TUI after entering +: the Product node has a Coproduct child with two empty children, and the leaf 5](images/example-step4.png)
+
 5. Enter another integer:
 
 `3`
 
+![TUI after entering 3: the Coproduct node has the leaf 3 and one empty child](images/example-step5.png)
 
 6. Try evaluating your AST, but preserving it, by entering 
 
@@ -220,13 +231,18 @@ First, the evaluation result is displayed. It looks the same as your tree becaus
 
 Your AST is preserved. 
 
+![TUI after entering p: the evaluation result is the unchanged tree, followed by "Preserving the AST." and the same current AST](images/example-step6.png)
+
 7. Enter a boolean, eg true by typing: 
 `t`
 
+![TUI after entering t: the Coproduct node now has the children true and 3, so the tree is fully saturated](images/example-step7.png)
 
 8. Evaluate it: 
 `e`
 
 The result is 20, which corresponds to (3+1) * 5
+
+![TUI after entering e: the result of evaluating the AST is 20](images/example-step8.png)
 
 [more examples](https://github.com/AR2202/langjam2/blob/main/submissions/Hylomorphic/example/example.txt)
