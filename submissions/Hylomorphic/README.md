@@ -98,10 +98,6 @@ If the left child of the If node evaluates to an integer, the integer is cast to
 
 ![If nodes with an integer condition: the left adjoint maps 0 to FALSE and every other integer to TRUE](images/slide-13.png)
 
-Note: this functor also has a right adjoint which maps everything except 1 to FALSE, and there is an alternative universe in which I picked the right adjoint instead. This is not that universe.
-
-![Left and right adjoint: the left adjoint maps 0 to FALSE and all other integers to TRUE; the right adjoint maps 1 to TRUE and all other integers to FALSE](images/slide-14.png)
-
 
 
 ## TUI
@@ -156,6 +152,10 @@ There is yet another link to corecursion: Hylomorphic is implemented in [Claro](
 ## A note on mathematical soundness
 
 The allusions to category theory are intended mostly as a parody and should not be mathematically scrutinized. Hylomorphic is not intended as a research language for category theorists. That said, if you discover that any of my claims are blatantly wrong, feel free to point this out to me. I am not a category theory expert.
+
+### Negative integers
+
+Strictly speaking, the categorical interpretation of integers used here only works for the natural numbers (0, 1, 2, ...), not for all integers. Integers are interpreted as cardinalities of finite sets: the product as the cartesian product, the coproduct as the disjoint union, the isomorphism check as equality of cardinalities, and the casts between Bool and Set as maps to and from the empty set and the singleton set. No set has a negative cardinality, so negative integers have no counterpart in Set. Hylomorphic nevertheless allows negative integers: they are multiplied, added and compared like any other integer, and an If node treats a negative condition as TRUE, extending the left adjoint's rule that only 0 maps to FALSE.
 
 ## AI usage
 
